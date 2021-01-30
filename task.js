@@ -4,6 +4,7 @@ const ulRef = document.querySelector('.js-gallery')
 const lightboxRef = document.querySelector('.js-lightbox')
 const modalImgRef = document.querySelector('.lightbox__image')
 const closeBtn = document.querySelector('[data-action="close-lightbox"]')
+const overlayRef = document.querySelector('.lightbox__overlay')
 
 const createGallery = items.map(item => `<li class="gallery__item">
 <a class="gallery__link" href='${item.original}'>
@@ -15,6 +16,8 @@ ulRef.insertAdjacentHTML('beforeend', [...createGallery].join(''))
 
 ulRef.addEventListener('click', onOpenModal)
 closeBtn.addEventListener('click', onCloseModal)
+overlayRef.addEventListener('click', onCloseModal)
+window.addEventListener('keydown', onCloseModalEsc)
 
 function onOpenModal(event) {
   event.preventDefault();
@@ -28,4 +31,10 @@ function onOpenModal(event) {
 function onCloseModal() {
   modalImgRef.setAttribute('src', '');
   lightboxRef.classList.remove('is-open');
+};
+
+function onCloseModalEsc(event) {
+  if (event.code === 'Escape') {
+    onCloseModal();
+  };
 };
