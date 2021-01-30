@@ -8,7 +8,7 @@ const overlayRef = document.querySelector('.lightbox__overlay')
 
 const createGallery = items.map(item => `<li class="gallery__item">
 <a class="gallery__link" href='${item.original}'>
-<img class="gallery__image" src='${item.preview}' data-source='${item.original}' alt='${item.description}'/>
+<img class="gallery__image" src='${item.preview}' data-source='${item.original}' data-index='${items.indexOf(item)}' alt='${item.description}'/>
 </a>
 </li>`);
 
@@ -20,20 +20,20 @@ overlayRef.addEventListener('click', onCloseModal)
 
 
 function onOpenModal(event) {
-  window.addEventListener('keydown', onCloseModalEsc)
-  window.addEventListener('keydown', onScroll)
+  window.addEventListener('keydown', onCloseModalEsc);
   event.preventDefault();
   if (event.target.nodeName !== 'IMG') {
     return;
   };
   modalImgRef.setAttribute('src', event.target.dataset.source);
+  modalImgRef.setAttribute('alt', event.target.alt);
   lightboxRef.classList.add('is-open');
 };
 
 function onCloseModal() {
   window.removeEventListener('keydown', onCloseModalEsc)
-  window.removeEventListener('keydown', onScroll)
   modalImgRef.setAttribute('src', '');
+  modalImgRef.setAttribute('alt', '');
   lightboxRef.classList.remove('is-open');
 };
 
@@ -42,7 +42,3 @@ function onCloseModalEsc(event) {
     onCloseModal();
   };
 };
-
-function onScroll(event) {
-
-}
