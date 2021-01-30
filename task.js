@@ -17,9 +17,11 @@ ulRef.insertAdjacentHTML('beforeend', [...createGallery].join(''))
 ulRef.addEventListener('click', onOpenModal)
 closeBtn.addEventListener('click', onCloseModal)
 overlayRef.addEventListener('click', onCloseModal)
-window.addEventListener('keydown', onCloseModalEsc)
+
 
 function onOpenModal(event) {
+  window.addEventListener('keydown', onCloseModalEsc)
+  window.addEventListener('keydown', onScroll)
   event.preventDefault();
   if (event.target.nodeName !== 'IMG') {
     return;
@@ -29,6 +31,8 @@ function onOpenModal(event) {
 };
 
 function onCloseModal() {
+  window.removeEventListener('keydown', onCloseModalEsc)
+  window.removeEventListener('keydown', onScroll)
   modalImgRef.setAttribute('src', '');
   lightboxRef.classList.remove('is-open');
 };
@@ -38,3 +42,7 @@ function onCloseModalEsc(event) {
     onCloseModal();
   };
 };
+
+function onScroll(event) {
+
+}
