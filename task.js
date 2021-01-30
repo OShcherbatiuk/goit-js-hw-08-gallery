@@ -13,24 +13,19 @@ const createGallery = items.map(item => `<li class="gallery__item">
 
 ulRef.insertAdjacentHTML('beforeend', [...createGallery].join(''))
 
-ulRef.addEventListener('click', onImgClick)
+ulRef.addEventListener('click', onOpenModal)
+closeBtn.addEventListener('click', onCloseModal)
 
-function onImgClick(event) {
-    event.preventDefault();
-    if (event.target.nodeName !== 'IMG') {
-      return;
-    };
-    
-    const originalUrl = event.target.dataset.source;
-    modalImgRef.setAttribute('src', originalUrl);
-    lightboxRef.classList.add('is-open');
-
+function onOpenModal(event) {
+  event.preventDefault();
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  };
+  modalImgRef.setAttribute('src', event.target.dataset.source);
+  lightboxRef.classList.add('is-open');
 };
 
-closeBtn.addEventListener('click', closeModal)
-
-function closeModal() {
-  console.log('close');
+function onCloseModal() {
   modalImgRef.setAttribute('src', '');
   lightboxRef.classList.remove('is-open');
-}
+};
