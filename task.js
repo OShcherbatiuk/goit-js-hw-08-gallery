@@ -2,6 +2,8 @@ import items from "./gallery-items.js"
 
 const ulRef = document.querySelector('.js-gallery')
 const lightboxRef = document.querySelector('.js-lightbox')
+const modalImgRef = document.querySelector('.lightbox__image')
+const closeBtn = document.querySelector('[data-action="close-lightbox"]')
 
 const createGallery = items.map(item => `<li class="gallery__item">
 <a class="gallery__link" href='${item.original}'>
@@ -19,7 +21,16 @@ function onImgClick(event) {
       return;
     };
     
-    console.log(event.target.dataset.source); 
+    const originalUrl = event.target.dataset.source;
+    modalImgRef.setAttribute('src', originalUrl);
     lightboxRef.classList.add('is-open');
 
 };
+
+closeBtn.addEventListener('click', closeModal)
+
+function closeModal() {
+  console.log('close');
+  modalImgRef.setAttribute('src', '');
+  lightboxRef.classList.remove('is-open');
+}
