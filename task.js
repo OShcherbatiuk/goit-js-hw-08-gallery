@@ -18,9 +18,11 @@ ulRef.addEventListener('click', onOpenModal)
 closeBtn.addEventListener('click', onCloseModal)
 overlayRef.addEventListener('click', onCloseModal)
 
+let currentIndex = null;
 
 function onOpenModal(event) {
   window.addEventListener('keydown', onCloseModalEsc);
+  window.addEventListener('keydown', onArrow)
   event.preventDefault();
   if (event.target.nodeName !== 'IMG') {
     return;
@@ -28,6 +30,7 @@ function onOpenModal(event) {
   modalImgRef.setAttribute('src', event.target.dataset.source);
   modalImgRef.setAttribute('alt', event.target.alt);
   lightboxRef.classList.add('is-open');
+  
 };
 
 function onCloseModal() {
@@ -42,3 +45,23 @@ function onCloseModalEsc(event) {
     onCloseModal();
   };
 };
+
+function onArrow({ code }) {
+  code === 'ArrowRight' && nextImg();
+  code === 'ArrowLeft' && prevImg();
+}
+
+
+function nextImg() {
+  currentIndex = items.length - 1 === currentIndex ? 0 : currentIndex + 1;
+  const { original, description } = items[currentIndex];
+  modalImgRef.setAttribute('src', original);
+  modalImgRef.setAttribute('alt', description);
+}
+
+function prevImg() {
+  currentIndex = currentIndex === 0 ? items.length - 1  : currentIndex - 1;
+  const { original, description } = items[currentIndex];
+  modalImgRef.setAttribute('src', original);
+  modalImgRef.setAttribute('alt', description);
+}
